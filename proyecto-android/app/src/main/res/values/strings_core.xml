@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="volver">← Volver</string>
+    <string name="cerrar">Cerrar</string>
+    <string name="copiado">Copiado</string>
+    <string name="no_se_pudo_abrir">No se pudo abrir esa pantalla</string>
+    <string name="requiere_modo_avanzado">Requiere el Modo Avanzado. Empareja y conecta la depuración inalámbrica para usar esta función.</string>
+    <string name="abrir_modo_avanzado">Abrir el Modo Avanzado</string>
+</resources>
