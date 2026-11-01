@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Task Master</string>
+    <string name="subtitulo">Procesos, registros y shell de tu teléfono</string>
+    <string name="menu_logcat">📜 Visor de logs</string>
+    <string name="menu_procesos">⚙ Gestor de procesos</string>
+    <string name="menu_consola">⌨ Consola shell</string>
+    <string name="menu_recursos_pronto">📊 Monitor de recursos (próximamente)</string>
+    <string name="estado_conectado">● Modo avanzado conectado</string>
+    <string name="estado_desconectado">○ Sin conexión: las funciones de shell requieren el Modo Avanzado</string>
+    <string name="estado_no_disponible">○ Modo avanzado no disponible: necesita Android 11 o superior</string>
+    <string name="aviso_principal">Task Master usa la depuración inalámbrica de este mismo teléfono para leer los registros del sistema y gestionar procesos. No envía nada fuera del teléfono. Los registros pueden contener datos personales: revisa lo que exportas.</string>
+    <string name="ayuda_principal_titulo">Task Master</string>
+    <string name="ayuda_principal">Task Master reúne tres herramientas para ver y controlar lo que pasa en tu teléfono: el visor de logs, el gestor de procesos y una consola de shell.\n\nTodas necesitan el Modo Avanzado: un emparejamiento de una sola vez con la depuración inalámbrica de Android. Sin él, las pantallas te avisan y te llevan a configurarlo.\n\nCuando termines, conviene apagar la depuración inalámbrica en Opciones de desarrollador.</string>
+
+    <string name="cargando">Cargando…</string>
+    <string name="error_shell">Error: %1$s</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="exportar">Exportar</string>
+    <string name="exportar_txt">Exportar .txt</string>
+    <string name="guardado">Archivo guardado</string>
+    <string name="no_guardado">No se pudo guardar el archivo</string>
+    <string name="limpiar">Limpiar</string>
+    <string name="copiar">Copiar</string>
+    <string name="ejecutar">Ejecutar</string>
+
+    <string name="filtro_todo">Todo</string>
+    <string name="filtro_errores">Errores</string>
+    <string name="filtro_autofill">Autofill</string>
+    <string name="hint_filtro_log">Buscar texto o etiqueta</string>
+    <string name="log_auto">Auto (3 s)</string>
+    <string name="log_hora">Con hora</string>
+    <string name="log_buffer_completo">Todo el búfer</string>
+    <string name="log_resumen">%1$d líneas de %2$d · filtro: %3$s</string>
+    <string name="log_nada_que_exportar">No hay líneas que exportar con este filtro.</string>
+    <string name="log_exportar">Exportar el registro</string>
+    <string name="aviso_exportar_log">Se exportarán las %1$d líneas que ves. Los registros del sistema pueden contener datos personales (nombres, direcciones, a veces contraseñas o códigos). El archivo no va cifrado: guárdalo y compártelo con cuidado.</string>
+    <string name="log_limpiar">Vaciar</string>
+    <string name="confirmar_limpiar_log">Se vaciará el búfer de logcat del teléfono. No se puede deshacer, pero el sistema vuelve a llenarlo enseguida.</string>
+    <string name="ayuda_logcat_titulo">Visor de logs</string>
+    <string name="ayuda_logcat">Muestra el registro del sistema (logcat), donde las apps y Android anotan lo que hacen. Se lee con privilegios de shell, así que se ven los registros de todas las apps.\n\n«Todo», «Errores» y «Autofill» filtran la lista; la caja de texto busca palabras o etiquetas. «Auto» vuelve a leer cada 3 segundos. Por defecto se leen las últimas 2000 líneas; «Todo el búfer» lee todo lo que guarde el sistema.\n\nEn rojo van los errores y en ámbar los avisos. «Exportar .txt» guarda justo lo que estás viendo.</string>
+
+    <string name="hint_buscar_proc">Buscar por nombre o paquete</string>
+    <string name="proc_ver_sistema">Incluir procesos del sistema</string>
+    <string name="proc_resumen">%1$d de %2$d procesos · %3$d MB en memoria</string>
+    <string name="proc_detener">Detener (force-stop)</string>
+    <string name="proc_detener_corto">Detener</string>
+    <string name="proc_ajustes">Abrir sus ajustes</string>
+    <string name="copiar_paquete">Copiar el nombre del paquete</string>
+    <string name="no_se_puede_detener">No se puede detener</string>
+    <string name="motivo_esencial">«%1$s» %2$s. Detenerla podría dejar el teléfono sin funcionar bien, así que no se permite.</string>
+    <string name="confirmar_detener">Se detendrá «%1$s» y todos sus procesos. Perderás lo que no haya guardado en ella y puede volver a arrancar sola.</string>
+    <string name="ayuda_procesos_titulo">Gestor de procesos</string>
+    <string name="ayuda_procesos">Lista lo que se está ejecutando, agrupado por app y ordenado por memoria usada (RSS). Por defecto solo muestra apps; «Incluir procesos del sistema» añade los de Android.\n\nToca una para detenerla con force-stop, abrir sus ajustes o copiar su paquete. Las apps esenciales (sistema, servicios de Google, tu pantalla de inicio, teclado y teléfono) no se pueden detener desde aquí.\n\nOjo: una app detenida puede volver a arrancar sola si el sistema la necesita.</string>
+
+    <string name="hint_orden">Orden de shell (por ejemplo: getprop ro.build.version.release)</string>
+    <string name="consola_historial">Historial</string>
+    <string name="consola_sin_salida">(sin salida)</string>
+    <string name="consola_sin_historial">Todavía no has ejecutado ninguna orden.</string>
+    <string name="consola_peligrosa_titulo">Orden delicada</string>
+    <string name="consola_peligrosa">Esta orden puede borrar datos o cambiar el sistema:\n\n%1$s\n\n¿Seguro que quieres ejecutarla?</string>
+    <string name="ayuda_consola_titulo">Consola shell</string>
+    <string name="ayuda_consola">Ejecuta órdenes con privilegios de shell (UID 2000), los mismos que tendrías con adb shell desde un ordenador.\n\nCada orden tarda un poco más de un segundo. Las órdenes que pueden borrar datos o cambiar el sistema piden confirmación. No sirven las órdenes interactivas ni las que no terminan nunca.\n\n«Historial» recupera las últimas órdenes y «Copiar» lleva la salida al portapapeles.</string>
+</resources>
