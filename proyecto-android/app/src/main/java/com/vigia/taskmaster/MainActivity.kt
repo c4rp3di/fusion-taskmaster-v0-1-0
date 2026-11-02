@@ -24,6 +24,7 @@ class MainActivity : ActividadBase() {
         findViewById<MaterialButton>(R.id.btnLogcat).setOnClickListener { abrir(LogcatActivity::class.java) }
         findViewById<MaterialButton>(R.id.btnProcesos).setOnClickListener { abrir(ProcesosActivity::class.java) }
         findViewById<MaterialButton>(R.id.btnConsola).setOnClickListener { abrir(ConsolaActivity::class.java) }
+        findViewById<MaterialButton>(R.id.btnRecursos).setOnClickListener { abrir(RecursosActivity::class.java) }
         findViewById<MaterialButton>(R.id.btnModoAvanzado).setOnClickListener { abrir(ModoAvanzadoActivity::class.java) }
 
         val cabecera = findViewById<LinearLayout>(R.id.filaCabecera)
