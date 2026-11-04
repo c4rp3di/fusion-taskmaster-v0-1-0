@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.vigia.taskmaster.adb.ModoAvanzadoActivity
 import com.vigia.taskmaster.adb.ShellManager
+import com.vigia.taskmaster.datos.ProcesosRepo
 import com.vigia.taskmaster.core.ActividadBase
 import com.vigia.taskmaster.core.Tema
 import kotlinx.coroutines.Dispatchers
@@ -36,6 +37,7 @@ class LogcatActivity : ActividadBase() {
     private lateinit var resumen: TextView
     private lateinit var avisoShell: TextView
     private lateinit var btnModo: MaterialButton
+    private lateinit var btnApp: MaterialButton
     private lateinit var chkAuto: CheckBox
     private lateinit var chkHora: CheckBox
     private lateinit var chkTodo: CheckBox
@@ -46,6 +48,9 @@ class LogcatActivity : ActividadBase() {
     private var modo = MODO_TODO
     private var cargando = false
     private var trabajoAuto: Job? = null
+    private var appFiltro: String? = null
+    private var appEtiqueta: String = ""
+    private var pidsActuales: Map<String, List<Int>> = emptyMap()
 
     private val lanzadorExportar = registerForActivityResult(ActivityResultContracts.CreateDocument("text/plain")) { uri ->
         if (uri != null) escribir(uri)
@@ -63,6 +68,7 @@ class LogcatActivity : ActividadBase() {
         resumen = findViewById(R.id.logResumen)
         avisoShell = findViewById(R.id.logAviso)
         btnModo = findViewById(R.id.btnLogModoAvanzado)
+        btnApp = findViewById(R.id.btnLogApp)
         chkAuto = findViewById(R.id.chkLogAuto)
         chkHora = findViewById(R.id.chkLogHora)
         chkTodo = findViewById(R.id.chkLogTodo)
@@ -76,6 +82,7 @@ class LogcatActivity : ActividadBase() {
         findViewById<MaterialButton>(R.id.btnLogActualizar).setOnClickListener { actualizar() }
         findViewById<MaterialButton>(R.id.btnLogExportar).setOnClickListener { pedirExportar() }
         findViewById<MaterialButton>(R.id.btnLogLimpiar).setOnClickListener { pedirLimpiar() }
+        btnApp.setOnClickListener { elegirApp() }
         btnModo.setOnClickListener { startActivity(android.content.Intent(this, ModoAvanzadoActivity::class.java)) }
         etFiltro.doAfterTextChanged { aplicar(false) }
         chkAuto.setOnCheckedChangeListener { _, marcado -> if (marcado) iniciarAuto() else detenerAuto() }
@@ -145,6 +152,68 @@ class LogcatActivity : ActividadBase() {
         }
     }
 
+    /** Líneas que pertenecen a la app elegida: las de sus procesos (por PID) o las que nombran su paquete. */
+    private fun pasaApp(linea: String, paquete: String, pids: Set<Int>): Boolean {
+        if (linea.contains(paquete)) return true
+        val m = PID.find(linea) ?: return false
+        val pid = m.groupValues[1].toIntOrNull() ?: return false
+        return pids.contains(pid)
+    }
+
+    /** PIDs de la app: los procesos que corren ahora y los que se ven arrancar en el propio registro («Start proc 1234:paquete/»). */
+    private fun pidsDeApp(paquete: String): Set<Int> {
+        val pids = HashSet<Int>()
+        pidsActuales[paquete]?.let { pids.addAll(it) }
+        val inicio = Regex("Start proc (\\d+):" + Regex.escape(paquete) + "[:/]")
+        for (l in todas) {
+            if (!l.contains("Start proc")) continue
+            val m = inicio.find(l) ?: continue
+            m.groupValues[1].toIntOrNull()?.let { pids.add(it) }
+        }
+        return pids
+    }
+
+    private fun elegirApp() {
+        lifecycleScope.launch {
+            val mapa = try {
+                ProcesosRepo.pidsPorPaquete(this@LogcatActivity)
+            } catch (e: Exception) {
+                aviso(getString(R.string.error_shell, e.message ?: e.javaClass.simpleName))
+                return@launch
+            }
+            pidsActuales = mapa
+            val pm = packageManager
+            val candidatas = ArrayList<Pair<String, String>>()
+            for (paquete in mapa.keys) {
+                if (!paquete.contains('.')) continue
+                try {
+                    val info = pm.getApplicationInfo(paquete, 0)
+                    candidatas.add(Pair(paquete, info.loadLabel(pm).toString()))
+                } catch (e: Exception) {
+                }
+            }
+            candidatas.sortBy { it.second.lowercase() }
+            val nombres = ArrayList<String>()
+            nombres.add(getString(R.string.log_sin_filtro_app))
+            for (c in candidatas) nombres.add(c.second + "\n" + c.first)
+            AlertDialog.Builder(this@LogcatActivity)
+                .setTitle(R.string.log_por_app)
+                .setItems(nombres.toTypedArray()) { _, cual ->
+                    if (cual == 0) {
+                        appFiltro = null
+                        appEtiqueta = ""
+                    } else {
+                        appFiltro = candidatas[cual - 1].first
+                        appEtiqueta = candidatas[cual - 1].second
+                    }
+                    btnApp.text = if (appFiltro == null) getString(R.string.log_por_app) else getString(R.string.log_app_activa, appEtiqueta)
+                    aplicar(true)
+                }
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
+        }
+    }
+
     private fun pasa(linea: String, filtro: String): Boolean {
         if (modo == MODO_ERRORES) {
             val n = nivel(linea)
@@ -157,7 +226,9 @@ class LogcatActivity : ActividadBase() {
 
     private fun aplicar(alFinal: Boolean) {
         val filtro = etFiltro.text.toString().trim()
-        val resultado = todas.filter { pasa(it, filtro) }.takeLast(MAX_VISIBLES)
+        val app = appFiltro
+        val pidsApp: Set<Int> = if (app == null) emptySet() else pidsDeApp(app)
+        val resultado = todas.filter { (app == null || pasaApp(it, app, pidsApp)) && pasa(it, filtro) }.takeLast(MAX_VISIBLES)
         visibles = resultado
         adaptador.setNotifyOnChange(false)
         adaptador.clear()
@@ -167,7 +238,7 @@ class LogcatActivity : ActividadBase() {
             MODO_ERRORES -> getString(R.string.filtro_errores)
             MODO_AUTOFILL -> getString(R.string.filtro_autofill)
             else -> getString(R.string.filtro_todo)
-        }
+        } + (if (app != null) " · " + appEtiqueta else "")
         resumen.text = getString(R.string.log_resumen, resultado.size, todas.size, etiqueta)
         if (alFinal && resultado.isNotEmpty()) lista.setSelection(resultado.size - 1)
     }
@@ -256,5 +327,6 @@ class LogcatActivity : ActividadBase() {
         private const val MODO_AUTOFILL = 2
         private const val MAX_VISIBLES = 3000
         private val NIVEL = Regex("(?:^|\\s)([VDIWEF])/")
+        private val PID = Regex("\\(\\s*(\\d+)\\)")
     }
 }
