@@ -227,4 +227,8 @@
         <item>Solo sistema</item>
         <item>Todo</item>
     </string-array>
+
+    <!-- Sin uso: restos de la versión 0.2.0 por si el editor conserva archivos antiguos -->
+    <string name="abrir_acceso_uso">Abrir acceso a uso de apps</string>
+    <string name="conceder_con_modo_avanzado">Concederlo con el Modo Avanzado</string>
 </resources>
