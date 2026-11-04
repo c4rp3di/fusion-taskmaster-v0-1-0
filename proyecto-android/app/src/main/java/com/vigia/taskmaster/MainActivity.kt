@@ -2,10 +2,10 @@ package com.vigia.taskmaster
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.button.MaterialButton
 import com.vigia.taskmaster.adb.ModoAvanzadoActivity
 import com.vigia.taskmaster.adb.ShellManager
 import com.vigia.taskmaster.core.ActividadBase
@@ -21,11 +21,11 @@ class MainActivity : ActividadBase() {
         setContentView(R.layout.activity_main)
         estado = findViewById(R.id.estadoShell)
 
-        findViewById<MaterialButton>(R.id.btnLogcat).setOnClickListener { abrir(LogcatActivity::class.java) }
-        findViewById<MaterialButton>(R.id.btnProcesos).setOnClickListener { abrir(ProcesosActivity::class.java) }
-        findViewById<MaterialButton>(R.id.btnConsola).setOnClickListener { abrir(ConsolaActivity::class.java) }
-        findViewById<MaterialButton>(R.id.btnRecursos).setOnClickListener { abrir(RecursosActivity::class.java) }
-        findViewById<MaterialButton>(R.id.btnModoAvanzado).setOnClickListener { abrir(ModoAvanzadoActivity::class.java) }
+        findViewById<View>(R.id.cardLogcat).setOnClickListener { abrir(LogcatActivity::class.java) }
+        findViewById<View>(R.id.cardProcesos).setOnClickListener { abrir(ProcesosActivity::class.java) }
+        findViewById<View>(R.id.cardRecursos).setOnClickListener { abrir(RecursosActivity::class.java) }
+        findViewById<View>(R.id.cardConsola).setOnClickListener { abrir(ConsolaActivity::class.java) }
+        findViewById<View>(R.id.cardEstado).setOnClickListener { abrir(ModoAvanzadoActivity::class.java) }
 
         val cabecera = findViewById<LinearLayout>(R.id.filaCabecera)
         cabecera.addView(Ayuda.enlace(this, "?  Ayuda") { Ayuda.mostrar(this, R.string.ayuda_principal_titulo, R.string.ayuda_principal) })
