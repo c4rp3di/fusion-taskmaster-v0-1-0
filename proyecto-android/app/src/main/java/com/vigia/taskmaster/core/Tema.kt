@@ -13,6 +13,16 @@ object Tema {
 
     fun gris(c: Context): Int = ContextCompat.getColor(c, R.color.vigia_gris)
 
+    fun azul(c: Context): Int = ContextCompat.getColor(c, R.color.vigia_azul)
+
+    fun verde(c: Context): Int = ContextCompat.getColor(c, R.color.vigia_verde)
+
+    fun morado(c: Context): Int = ContextCompat.getColor(c, R.color.vigia_morado)
+
+    fun naranja(c: Context): Int = ContextCompat.getColor(c, R.color.vigia_naranja)
+
+    fun cian(c: Context): Int = ContextCompat.getColor(c, R.color.vigia_cian)
+
     fun texto(c: Context): Int {
         val v = TypedValue()
         c.theme.resolveAttribute(android.R.attr.textColorPrimary, v, true)
