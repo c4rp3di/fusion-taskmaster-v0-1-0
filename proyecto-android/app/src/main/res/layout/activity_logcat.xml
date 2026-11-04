@@ -72,6 +72,13 @@
             android:text="@string/filtro_autofill" />
     </LinearLayout>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLogApp"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/log_por_app" />
+
     <EditText
         android:id="@+id/etFiltroLog"
         android:layout_width="match_parent"
