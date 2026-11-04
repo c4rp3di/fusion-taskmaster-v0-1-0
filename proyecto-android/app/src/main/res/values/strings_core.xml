@@ -6,4 +6,8 @@
     <string name="no_se_pudo_abrir">No se pudo abrir esa pantalla</string>
     <string name="requiere_modo_avanzado">Requiere el Modo Avanzado. Empareja y conecta la depuración inalámbrica para usar esta función.</string>
     <string name="abrir_modo_avanzado">Abrir el Modo Avanzado</string>
+    <string name="acceso_uso_titulo">Falta un permiso especial</string>
+    <string name="acceso_uso_explica">Para esta información, Android exige un acceso llamado «uso de apps». La app solo lo usa para leer estadísticas (tráfico, tiempo de uso y tamaño de las apps), nunca el contenido de lo que haces.</string>
+    <string name="acceso_uso_abrir">Abrir acceso a uso de apps</string>
+    <string name="acceso_uso_shell">Concederlo con el Modo Avanzado</string>
 </resources>
