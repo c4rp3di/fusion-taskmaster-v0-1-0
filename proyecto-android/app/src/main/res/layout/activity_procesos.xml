@@ -36,6 +36,12 @@
         android:text="@string/abrir_modo_avanzado"
         android:visibility="gone" />
 
+    <LinearLayout
+        android:id="@+id/cabeceraSistema"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
     <EditText
         android:id="@+id/etBuscarProc"
         android:layout_width="match_parent"
@@ -48,15 +54,41 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/spOrden"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Spinner
+            android:id="@+id/spFiltro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <CheckBox
-            android:id="@+id/chkProcSistema"
+            android:id="@+id/chkProcBarras"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/proc_barras"
+            android:textSize="13sp" />
+
+        <CheckBox
+            android:id="@+id/chkProcAuto"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/proc_ver_sistema"
+            android:text="@string/proc_auto"
             android:textSize="13sp" />
 
         <com.google.android.material.button.MaterialButton
