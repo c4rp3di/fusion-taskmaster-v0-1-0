@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Task Master</string>
-    <string name="subtitulo">Procesos, registros y shell de tu teléfono</string>
+    <string name="subtitulo">Procesos, registros y recursos de tu teléfono</string>
     <string name="menu_logcat">📜 Visor de logs</string>
+    <string name="menu_logcat_desc">El registro del sistema en vivo, con filtros por tipo, texto y app.</string>
     <string name="menu_procesos">⚙ Gestor de procesos</string>
-    <string name="menu_consola">⌨ Consola shell</string>
+    <string name="menu_procesos_desc">Lo que se ejecuta ahora, con CPU y memoria, al estilo htop.</string>
     <string name="menu_recursos">📊 Monitor de recursos</string>
+    <string name="menu_recursos_desc">Batería, memoria, almacenamiento y tráfico de red, con gráficas.</string>
+    <string name="menu_consola">⌨ Consola shell</string>
+    <string name="menu_consola_desc">Órdenes directas al shell del teléfono.</string>
     <string name="estado_conectado">● Modo avanzado conectado</string>
-    <string name="estado_desconectado">○ Sin conexión: las funciones de shell requieren el Modo Avanzado</string>
+    <string name="estado_desconectado">○ Sin conexión: pulsa aquí para configurar el Modo Avanzado</string>
     <string name="estado_no_disponible">○ Modo avanzado no disponible: necesita Android 11 o superior</string>
     <string name="aviso_principal">Task Master usa la depuración inalámbrica de este mismo teléfono para leer los registros del sistema y gestionar procesos. No envía nada fuera del teléfono. Los registros pueden contener datos personales: revisa lo que exportas.</string>
     <string name="ayuda_principal_titulo">Task Master</string>
-    <string name="ayuda_principal">Task Master reúne cuatro herramientas para ver y controlar lo que pasa en tu teléfono: el visor de logs, el gestor de procesos, una consola de shell y un monitor de recursos.\n\nLas tres primeras necesitan el Modo Avanzado (el monitor lo usa solo para dos funciones): un emparejamiento de una sola vez con la depuración inalámbrica de Android. Sin él, las pantallas te avisan y te llevan a configurarlo.\n\nCuando termines, conviene apagar la depuración inalámbrica en Opciones de desarrollador.</string>
+    <string name="ayuda_principal">Task Master reúne cuatro herramientas para ver y controlar lo que pasa en tu teléfono: el visor de logs, el gestor de procesos, el monitor de recursos y una consola de shell.\n\nLa mayoría necesita el Modo Avanzado: un emparejamiento de una sola vez con la depuración inalámbrica de Android. Sin él, las pantallas te avisan y te llevan a configurarlo. El monitor de recursos funciona en parte sin él.\n\nCuando termines, conviene apagar la depuración inalámbrica en Opciones de desarrollador.</string>
 
+    <string name="no_disponible">No disponible</string>
     <string name="cargando">Cargando…</string>
     <string name="error_shell">Error: %1$s</string>
     <string name="actualizar">Actualizar</string>
@@ -23,10 +28,17 @@
     <string name="limpiar">Limpiar</string>
     <string name="copiar">Copiar</string>
     <string name="ejecutar">Ejecutar</string>
+    <string name="opciones">Opciones</string>
+    <string name="desinstalar">Desinstalar</string>
+    <string name="copiar_paquete">Copiar el nombre del paquete</string>
+    <string name="copiar_diagnostico">Copiar diagnóstico</string>
 
     <string name="filtro_todo">Todo</string>
     <string name="filtro_errores">Errores</string>
     <string name="filtro_autofill">Autofill</string>
+    <string name="log_por_app">📱 Filtrar por app</string>
+    <string name="log_sin_filtro_app">(Sin filtro de app)</string>
+    <string name="log_app_activa">📱 App: %1$s · cambiar</string>
     <string name="hint_filtro_log">Buscar texto o etiqueta</string>
     <string name="log_auto">Auto (3 s)</string>
     <string name="log_hora">Con hora</string>
@@ -38,20 +50,32 @@
     <string name="log_limpiar">Vaciar</string>
     <string name="confirmar_limpiar_log">Se vaciará el búfer de logcat del teléfono. No se puede deshacer, pero el sistema vuelve a llenarlo enseguida.</string>
     <string name="ayuda_logcat_titulo">Visor de logs</string>
-    <string name="ayuda_logcat">Muestra el registro del sistema (logcat), donde las apps y Android anotan lo que hacen. Se lee con privilegios de shell, así que se ven los registros de todas las apps.\n\n«Todo», «Errores» y «Autofill» filtran la lista; la caja de texto busca palabras o etiquetas. «Auto» vuelve a leer cada 3 segundos. Por defecto se leen las últimas 2000 líneas; «Todo el búfer» lee todo lo que guarde el sistema.\n\nEn rojo van los errores y en ámbar los avisos. «Exportar .txt» guarda justo lo que estás viendo.</string>
+    <string name="ayuda_logcat">Muestra el registro del sistema (logcat), donde las apps y Android anotan lo que hacen. Se lee con privilegios de shell, así que se ven los registros de todas las apps.\n\n«Todo», «Errores» y «Autofill» filtran la lista; «Filtrar por app» deja solo lo de una app (por sus procesos y por las líneas que nombran su paquete) y la caja de texto busca palabras o etiquetas. «Auto» vuelve a leer cada 3 segundos. Por defecto se leen las últimas 2000 líneas; «Todo el búfer» lee todo lo que guarde el sistema.\n\nEn rojo van los errores y en ámbar los avisos. «Exportar .txt» guarda justo lo que estás viendo.</string>
 
     <string name="hint_buscar_proc">Buscar por nombre o paquete</string>
-    <string name="proc_ver_sistema">Incluir procesos del sistema</string>
-    <string name="proc_resumen">%1$d de %2$d procesos · %3$d MB en memoria</string>
+    <string name="proc_ordenes_titulo">Ordenar por</string>
+    <string name="proc_barras">Barras</string>
+    <string name="proc_auto">Auto (10 s)</string>
+    <string name="proc_actualizado">actualizado %1$s</string>
+    <string name="proc_resumen">%1$d de %2$d apps · %3$d MB en memoria</string>
+    <string name="proc_cpu">CPU · %1$d núcleos</string>
+    <string name="proc_ram">Memoria RAM</string>
+    <string name="proc_swap">Swap</string>
+    <string name="proc_sin_cabecera">No se pudo leer el estado global del sistema.</string>
     <string name="proc_detener">Detener (force-stop)</string>
+    <string name="proc_detener_fondo">Detener solo en segundo plano (am kill)</string>
     <string name="proc_detener_corto">Detener</string>
     <string name="proc_ajustes">Abrir sus ajustes</string>
-    <string name="copiar_paquete">Copiar el nombre del paquete</string>
+    <string name="proc_detalle">Ver detalle del proceso</string>
+    <string name="proc_copiar_pid">Copiar el PID</string>
+    <string name="proc_opciones_app">Opciones de la app</string>
+    <string name="proc_proceso_terminado">El proceso ya no existe.</string>
     <string name="no_se_puede_detener">No se puede detener</string>
     <string name="motivo_esencial">«%1$s» %2$s. Detenerla podría dejar el teléfono sin funcionar bien, así que no se permite.</string>
     <string name="confirmar_detener">Se detendrá «%1$s» y todos sus procesos. Perderás lo que no haya guardado en ella y puede volver a arrancar sola.</string>
+    <string name="confirmar_detener_fondo">Se cerrarán los procesos en segundo plano de «%1$s», pero no la app si la estás usando. Es lo más suave que se puede hacer.</string>
     <string name="ayuda_procesos_titulo">Gestor de procesos</string>
-    <string name="ayuda_procesos">Lista lo que se está ejecutando, agrupado por app y ordenado por memoria usada (RSS). Por defecto solo muestra apps; «Incluir procesos del sistema» añade los de Android.\n\nToca una para detenerla con force-stop, abrir sus ajustes o copiar su paquete. Las apps esenciales (sistema, servicios de Google, tu pantalla de inicio, teclado y teléfono) no se pueden detener desde aquí.\n\nOjo: una app detenida puede volver a arrancar sola si el sistema la necesita.</string>
+    <string name="ayuda_procesos">Arriba, el estado global (CPU, RAM y swap). Debajo, las apps en ejecución con su memoria (barra verde) y su CPU (barra azul).\n\nToca una app para desplegar sus procesos; toca un proceso para ver su detalle. Mantén pulsada una app para detenerla, abrir sus ajustes o copiar su paquete. «Detener» corta la app entera con force-stop; «solo en segundo plano» cierra lo que no usas. Android no deja matar un proceso suelto sin root.\n\nOrdena por memoria, CPU, nombre o número de procesos, y filtra apps, sistema o todo. Los datos se guardan y solo se vuelven a leer con «Actualizar» o con «Auto», para no gastar de más. Las apps esenciales no se pueden detener.</string>
 
     <string name="hint_orden">Orden de shell (por ejemplo: getprop ro.build.version.release)</string>
     <string name="consola_historial">Historial</string>
@@ -62,14 +86,18 @@
     <string name="ayuda_consola_titulo">Consola shell</string>
     <string name="ayuda_consola">Ejecuta órdenes con privilegios de shell (UID 2000), los mismos que tendrías con adb shell desde un ordenador.\n\nCada orden tarda un poco más de un segundo. Las órdenes que pueden borrar datos o cambiar el sistema piden confirmación. No sirven las órdenes interactivas ni las que no terminan nunca.\n\n«Historial» recupera las últimas órdenes y «Copiar» lleva la salida al portapapeles.</string>
 
-    <string name="no_disponible">No disponible</string>
-    <string name="sec_bateria">Batería</string>
-    <string name="sec_memoria">Memoria (RAM)</string>
-    <string name="sec_almacenamiento">Almacenamiento</string>
-    <string name="sec_trafico">Tráfico de datos por app</string>
-    <string name="sec_bateria_apps">Consumo de batería por app</string>
+    <string name="sec_bateria">🔋 Batería</string>
+    <string name="sec_memoria">🧠 Memoria RAM</string>
+    <string name="sec_almacenamiento">💾 Almacenamiento</string>
+    <string name="sec_trafico">🌐 Tráfico de red</string>
+    <string name="sec_bateria_apps">Consumo estimado por app</string>
+    <string name="ayuda_recursos_titulo">Monitor de recursos</string>
+    <string name="ayuda_recursos">Cuatro tarjetas con el estado del teléfono: batería, memoria, almacenamiento y tráfico de red. Toca una para abrir su pantalla, con gráficas, más datos y opciones.</string>
+    <string name="trafico_toca">Toca para ver el tráfico, la velocidad en directo y las apps que más gastan.</string>
+    <string name="trafico_hoy_resumen">Hoy: %1$s en total · wifi %2$s · datos móviles %3$s</string>
+    <string name="trafico_vacio">Sin tráfico registrado en el periodo: %1$s.</string>
+
     <string name="bat_resumen">%1$d%% · %2$s</string>
-    <string name="bat_detalle">Temperatura %1$s °C · %2$d mV · salud: %3$s</string>
     <string name="bat_corriente">Corriente ahora: %1$d mA</string>
     <string name="bat_cargando">cargando</string>
     <string name="bat_descargando">descargando</string>
@@ -81,26 +109,122 @@
     <string name="bat_salud_muerta">agotada</string>
     <string name="bat_salud_voltaje">sobretensión</string>
     <string name="bat_salud_fria">fría</string>
+    <string name="bat_tiempo_carga">Tiempo estimado hasta la carga completa: %1$s</string>
+    <string name="bat_detalles">Detalles</string>
+    <string name="bat_l_temperatura">Temperatura</string>
+    <string name="bat_l_voltaje">Voltaje</string>
+    <string name="bat_l_corriente">Corriente</string>
+    <string name="bat_l_salud">Salud</string>
+    <string name="bat_l_tecnologia">Tecnología</string>
+    <string name="bat_l_ciclos">Ciclos de carga</string>
+    <string name="bat_l_capacidad">Capacidad estimada</string>
+    <string name="bat_nota_corriente">La corriente es lo que mide el fabricante en este instante; el signo y la precisión cambian entre móviles. La capacidad estimada sale del contador de carga y es aproximada.</string>
+    <string name="bat_en_vivo">En directo (se actualiza cada 3 s)</string>
+    <string name="bat_uso_apps">Apps que más usas</string>
+    <string name="bat_uso_apps_info">Tiempo con cada app en primer plano: lo que más se parece al consumo real, sin necesitar el Modo Avanzado.</string>
+    <string name="bat_uso_vacio">No hay apps con más de un minuto de uso en este periodo.</string>
+    <string name="bat_op_ahorro">Ahorro de batería (Android)</string>
+    <string name="bat_op_uso_sistema">Uso de batería del sistema</string>
+    <string name="bat_op_optimizacion">Optimización de batería por app</string>
+    <string name="bat_op_reiniciar">Reiniciar estadísticas de batería</string>
+    <string name="bat_reiniciar_aviso">Se borrarán las estadísticas de consumo que guarda Android para empezar a medir desde ahora. No afecta a la batería ni a tus datos. Requiere el Modo Avanzado.</string>
+    <string name="bat_reiniciado">Estadísticas reiniciadas</string>
+    <string name="leer_bateria_apps">Leer consumo por app</string>
+    <string name="bateria_apps_info">Android no deja a una app normal ver cuánta batería gasta cada app. Con el Modo Avanzado se intenta leer del registro del sistema (dumpsys batterystats), aunque el formato cambia entre versiones de Android y los números son aproximados.</string>
+    <string name="bateria_apps_vacio">No se pudo leer el consumo por app: tu versión de Android usa un formato distinto o no tiene datos todavía. Este diagnóstico ayuda a ajustar el lector:</string>
+    <string name="bateria_apps_resumen">Consumo estimado desde la última carga completa (mAh). Se muestran las 15 apps que más gastan.</string>
+    <string name="ayuda_bateria_titulo">Batería</string>
+    <string name="ayuda_bateria">Nivel, estado y detalles técnicos de la batería, con gráficas en directo de corriente y temperatura mientras la pantalla está abierta.\n\n«Apps que más usas» muestra el tiempo en primer plano de cada app (necesita el acceso especial de uso). «Consumo estimado por app» intenta leer el consumo real con el Modo Avanzado, pero Android cambia ese formato entre versiones.\n\nLas opciones llevan a los ajustes de ahorro y optimización de Android.</string>
+
     <string name="mem_resumen">En uso %1$s de %2$s · libre %3$s</string>
     <string name="mem_baja">El sistema indica que hay poca memoria libre.</string>
+    <string name="mem_en_uso">en uso</string>
+    <string name="mem_l_usada">En uso</string>
+    <string name="mem_l_disponible">Disponible</string>
+    <string name="mem_l_total">Total</string>
+    <string name="mem_l_apps">Apps y sistema</string>
+    <string name="mem_l_cache">Caché</string>
+    <string name="mem_l_libre">Libre</string>
+    <string name="mem_nota_cache">La caché cuenta como ocupada pero Android la suelta cuando hace falta: lo que importa es la memoria «disponible».</string>
+    <string name="mem_detalle_titulo">Quién usa la memoria</string>
+    <string name="mem_requiere_modo">Ver qué apps gastan la RAM, detenerlas o liberar memoria necesita el Modo Avanzado.</string>
+    <string name="mem_sin_datos">No se pudo leer el detalle de la memoria.</string>
+    <string name="mem_quien">Quién usa la RAM</string>
+    <string name="mem_quien_info">Memoria real de cada app (PSS), que reparte la memoria compartida entre las apps que la usan. Toca una para ver opciones.</string>
+    <string name="mem_resumen_sistema">Resumen del sistema</string>
+    <string name="mem_liberar">Liberar memoria</string>
+    <string name="mem_liberar_aviso">Se cerrarán los procesos en caché que Android considera seguros de matar (am kill-all). Libera memoria al momento, pero las apps tardarán más en abrirse la próxima vez y Android suele volver a llenarla. Android ya gestiona la RAM por su cuenta: úsalo con moderación.</string>
+    <string name="mem_liberada">Liberado: %1$s. Memoria disponible ahora: %2$s</string>
+    <string name="mem_ver_procesos">Ver todos los procesos (vista htop)</string>
+    <string name="ayuda_memoria_titulo">Memoria RAM</string>
+    <string name="ayuda_memoria">El anillo reparte la RAM entre apps y sistema, caché y libre. La memoria «disponible» es la que de verdad se puede usar, porque la caché se suelta cuando hace falta.\n\n«Quién usa la RAM» ordena las apps por su memoria real (PSS). Toca una para detenerla o abrir sus ajustes. «Liberar memoria» cierra los procesos en caché; sirve poco y las apps tardan más en abrirse, así que no hace falta hacerlo a menudo.</string>
+
     <string name="alm_resumen">En uso %1$s de %2$s · libre %3$s</string>
-    <string name="periodo_hoy">Hoy</string>
-    <string name="periodo_7">7 días</string>
-    <string name="periodo_30">30 días</string>
-    <string name="trafico_sin_acceso">Para ver el tráfico por app, Android exige un acceso especial llamado «uso de apps». Concédelo a Task Master: solo lo usa para leer cuántos datos gasta cada app, sin ver qué datos son.</string>
-    <string name="abrir_acceso_uso">Abrir acceso a uso de apps</string>
-    <string name="conceder_con_modo_avanzado">Concederlo con el Modo Avanzado</string>
-    <string name="trafico_vacio">Sin tráfico registrado en el periodo: %1$s.</string>
-    <string name="trafico_resumen">%1$s: %2$s en total (wifi y datos móviles). Se muestran las 15 apps que más gastan.</string>
-    <string name="trafico_detalle">Wifi %1$s · datos móviles %2$s</string>
+    <string name="alm_calculando">Calculando lo que ocupa cada app…</string>
+    <string name="alm_ocupado">ocupado</string>
+    <string name="alm_l_usado">Usado</string>
+    <string name="alm_l_libre">Libre</string>
+    <string name="alm_l_apps">Apps y sus datos</string>
+    <string name="alm_l_imagenes">Imágenes</string>
+    <string name="alm_l_videos">Vídeos</string>
+    <string name="alm_l_audio">Audio</string>
+    <string name="alm_l_otros">Otros</string>
+    <string name="alm_total_nota">Capacidad total: %1$s. «Otros» incluye el sistema, documentos y lo que Android no clasifica.</string>
+    <string name="alm_cache_titulo">Caché de las apps</string>
+    <string name="alm_cache_info">Las apps guardan %1$s de caché. Se puede borrar sin perder datos, aunque las apps irán algo más lentas la primera vez que se abran.</string>
+    <string name="alm_limpiar_caches">Limpiar cachés de todas las apps</string>
+    <string name="alm_limpiar_aviso">Se borrará la caché de todas las apps (pm trim-caches). No borra datos, ajustes ni sesiones, pero las apps tardarán más en arrancar la próxima vez. Requiere el Modo Avanzado.</string>
+    <string name="alm_liberado">Espacio liberado: %1$s</string>
+    <string name="alm_apps_titulo">Apps que más ocupan</string>
+    <string name="alm_o_total">Total</string>
+    <string name="alm_o_apps">App</string>
+    <string name="alm_o_datos">Datos</string>
+    <string name="alm_o_cache">Caché</string>
+    <string name="alm_f_todas">Todas</string>
+    <string name="alm_f_usuario">Usuario</string>
+    <string name="alm_f_sistema">Sistema</string>
+    <string name="alm_leg_app">La app (programa)</string>
+    <string name="alm_leg_datos">Sus datos</string>
+    <string name="alm_leg_cache">Su caché</string>
+    <string name="alm_op_ajustes">Ajustes de almacenamiento</string>
+    <string name="alm_op_liberar">Liberar espacio (Android)</string>
+    <string name="alm_op_borrar_cache">Abrir sus ajustes (borrar caché o datos)</string>
+    <string name="ayuda_almacen_titulo">Almacenamiento</string>
+    <string name="ayuda_almacen">El anillo reparte el espacio entre apps, imágenes, vídeos, audio, otros y libre. Necesita el acceso especial de uso.\n\n«Apps que más ocupan» separa en cada app el programa (azul), sus datos (verde) y su caché (naranja); ordena por lo que quieras y filtra usuario o sistema. Toca una app para abrir sus ajustes y borrar su caché, o desinstalarla si es de usuario.\n\n«Limpiar cachés» las borra todas de una vez con el Modo Avanzado y te dice cuánto espacio se ha liberado.</string>
+
+    <string name="tr_en_vivo">Velocidad en directo</string>
+    <string name="tr_midiendo">Midiendo…</string>
+    <string name="tr_bajada">Bajada</string>
+    <string name="tr_subida">Subida</string>
+    <string name="tr_velocidad">↓ %1$s · ↑ %2$s</string>
+    <string name="tr_consumo">Consumo de datos</string>
+    <string name="tr_wifi">Wifi</string>
+    <string name="tr_movil">Datos móviles</string>
+    <string name="tr_por_horas">Por horas (hoy)</string>
+    <string name="tr_por_dias">Por días</string>
+    <string name="tr_apps">Apps que más gastan (toca una para ver su gráfica)</string>
+    <string name="tr_detalle_app">%1$s: %2$s en total · wifi %3$s · datos móviles %4$s</string>
+    <string name="tr_op_uso_datos">Ajustes de uso de datos</string>
+    <string name="tr_op_redes">Ajustes de redes</string>
     <string name="uid_root">Sistema base (root)</string>
     <string name="uid_sistema">Sistema Android</string>
     <string name="uid_eliminadas">Apps ya desinstaladas</string>
     <string name="uid_anclaje">Compartir conexión (anclaje)</string>
-    <string name="bateria_apps_info">Android no deja a una app normal ver cuánta batería gasta cada app. Con el Modo Avanzado se puede leer del registro del sistema (dumpsys batterystats), aunque el formato cambia entre versiones de Android y los números son aproximados.</string>
-    <string name="leer_bateria_apps">Leer consumo por app</string>
-    <string name="bateria_apps_vacio">No se pudo leer el consumo por app: tu versión de Android usa un formato distinto o no tiene datos todavía.</string>
-    <string name="bateria_apps_resumen">Consumo estimado desde la última carga completa (mAh). Se muestran las 15 apps que más gastan.</string>
-    <string name="ayuda_recursos_titulo">Monitor de recursos</string>
-    <string name="ayuda_recursos">Reúne el estado del teléfono en una pantalla: batería (nivel, temperatura, salud), memoria RAM y almacenamiento.\n\nEl tráfico de datos por app necesita el acceso especial «uso de apps»; puedes darlo desde los ajustes de Android o, con el Modo Avanzado, con un toque. Se separa en wifi y datos móviles, y puedes mirar hoy, 7 o 30 días.\n\nEl consumo de batería por app solo se puede leer con el Modo Avanzado y es aproximado: Android cambia ese formato entre versiones.</string>
+    <string name="periodo_hoy">Hoy</string>
+    <string name="periodo_7">7 días</string>
+    <string name="periodo_30">30 días</string>
+    <string name="ayuda_trafico_titulo">Tráfico de red</string>
+    <string name="ayuda_trafico">Arriba, la velocidad de bajada y subida en directo. Debajo, el consumo de hoy (por horas), de los últimos 7 o de los últimos 30 días, separado en wifi y datos móviles. Necesita el acceso especial de uso.\n\nLas apps que más gastan salen con una barra azul (wifi) y naranja (datos móviles); toca una para ver su gráfica por días.</string>
+
+    <string-array name="proc_ordenes">
+        <item>Ordenar por memoria</item>
+        <item>Ordenar por CPU</item>
+        <item>Ordenar por nombre</item>
+        <item>Ordenar por nº de procesos</item>
+    </string-array>
+    <string-array name="proc_filtros">
+        <item>Solo apps</item>
+        <item>Solo sistema</item>
+        <item>Todo</item>
+    </string-array>
 </resources>
