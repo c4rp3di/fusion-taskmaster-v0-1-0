@@ -13,11 +13,11 @@ class ResultadoBateria(val filas: List<ConsumoApp>, val diagnostico: String)
  */
 object BateriaApps {
 
-private const val ORDEN =
-    "echo ==A==; dumpsys batterystats --charged 2>&1 | grep -E 'Uid [0-9]+: [0-9.]+' | head -n 150; " +
-        "echo ==B==; dumpsys batterystats 2>&1 | grep -E 'Uid [0-9]+: [0-9.]+' | head -n 150; " +
-        "echo ==C==; dumpsys batterystats --checkin 2>&1 | grep ',pwi,' | head -n 150; " +
-        "echo ==D==; dumpsys batterystats 2>&1 | head -n 30"
+    private const val ORDEN =
+        "echo ==A==; dumpsys batterystats --checkin 2>&1 | grep ',pwi,' | head -n 150; " +
+            "echo ==B==; dumpsys batterystats --usage 2>&1 | grep -E 'Uid [^:]+: [0-9.]+' | head -n 150; " +
+            "echo ==C==; dumpsys batterystats 2>&1 | grep -E 'Uid [^:]+: [0-9.]+' | head -n 150; " +
+            "echo ==D==; dumpsys batterystats 2>&1 | head -n 15"
 
     private val LINEA_UID = Regex("Uid\\s+([^:\\s]+):\\s+([0-9]+(?:\\.[0-9]+)?)")
     private val UID_APP = Regex("^u(\\d+)a(\\d+)$")
