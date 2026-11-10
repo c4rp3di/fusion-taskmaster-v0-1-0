@@ -335,61 +335,28 @@ class BateriaActivity : ActividadBase() {
                 return@launch
             }
             contConsumo.removeAllViews()
-
-            // Si la lista está vacía y NO estamos en modo "mostrar todas", mostramos diagnóstico
-            if (r.filas.isEmpty() && !mostrarTodasConsumo) {
+            
+            // Si la lista está vacía, mostramos diagnóstico (comportamiento original)
+            if (r.filas.isEmpty()) {
                 contConsumo.addView(Ui.texto(this@BateriaActivity, getString(R.string.bateria_apps_vacio), 13f))
                 contConsumo.addView(Ui.monoespaciado(this@BateriaActivity, r.diagnostico, 10f))
                 contConsumo.addView(Ui.botonSecundario(this@BateriaActivity, getString(R.string.copiar_diagnostico)) {
                     Portapapeles.copiar(this@BateriaActivity, r.diagnostico)
                     aviso(R.string.copiado)
                 })
-                // Botón para forzar el cruce completo si el dumpsys falló
-                contConsumo.addView(Ui.botonSecundario(this@BateriaActivity, "Forzar cruce con apps instaladas") {
-                    mostrarTodasConsumo = true
-                    leerConsumo()
-                })
                 return@launch
             }
 
-            // --- INICIO DEL CRUCE DEFINITIVO ---
-            // Creamos un mapa con los datos que sí leyó dumpsys
-            val mapaConsumo = r.filas.associateBy { it.uid }
-            
-            // Obtenemos TODAS las apps instaladas
-            val pm = packageManager
-            val appsInstaladas = pm.getInstalledApplications(0)
-            
-            // Lista final de "ConsumoApp" (UID y mAh)
-            val listaCruzada = ArrayList<com.vigia.taskmaster.datos.ConsumoApp>()
-            
-            for (appInfo in appsInstaladas) {
-                val uid = appInfo.uid
-                // Si el dumpsys tiene datos para este UID, usamos su mAh. Si no, 0.0
-                val mah = mapaConsumo[uid]?.mah ?: 0.0
-                
-                // Solo añadimos la app si tiene consumo > 0, O si estamos en modo "Mostrar Todas"
-                if (mah > 0.0 || mostrarTodasConsumo) {
-                    listaCruzada.add(com.vigia.taskmaster.datos.ConsumoApp(uid, mah))
-                }
-            }
-            
-            // Ordenamos de mayor a menor consumo
-            listaCruzada.sortByDescending { it.mah }
-            
-            // Si no hay ninguna app con consumo y no estamos en modo "mostrar todas", avisamos
-            if (listaCruzada.isEmpty()) {
-                contConsumo.addView(Ui.texto(this@BateriaActivity, "Ninguna app ha registrado consumo todavía.", 13f))
-                return@launch
-            }
-            // --- FIN DEL CRUCE DEFINITIVO ---
-
+            // Si SÍ hay datos, mostramos la lista con el desplegable
             contConsumo.addView(Ui.texto(this@BateriaActivity, getString(R.string.bateria_apps_resumen), 12f, false, Tema.gris(this@BateriaActivity)))
-
-            // Lógica del desplegable (ahora aplicada a la lista cruzada)
-            val filasAMostrar = if (mostrarTodasConsumo) listaCruzada else listaCruzada.take(15)
-            val maximo = listaCruzada.firstOrNull()?.mah?.toFloat() ?: 1f
-
+            
+            // 1. Decidir cuántas filas mostrar
+            val filasAMostrar = if (mostrarTodasConsumo) r.filas else r.filas.take(15)
+            
+            // 2. Calculamos el máximo usando la lista completa original (r.filas) para que las barras mantengan la proporción real
+            val maximo = r.filas.firstOrNull()?.mah?.toFloat() ?: 1f 
+            
+            // 3. Pintamos las filas seleccionadas
             for (f in filasAMostrar) {
                 contConsumo.addView(Ui.fila(this@BateriaActivity, Uids.nombre(this@BateriaActivity, f.uid), Formato.decimal(f.mah, 1) + " mAh"))
                 val b = BarraView(this@BateriaActivity)
@@ -399,12 +366,12 @@ class BateriaActivity : ActividadBase() {
                 contConsumo.addView(Ui.espacio(this@BateriaActivity, 6))
             }
 
-            // Botón "Mostrar más/menos"
-            if (listaCruzada.size > 15) {
-                val textoBoton = if (mostrarTodasConsumo) "Mostrar solo las 15" else "Mostrar todas (${listaCruzada.size})"
+            // 4. Añadir el botón "Mostrar más / Mostrar menos" si hay más de 15
+            if (r.filas.size > 15) {
+                val textoBoton = if (mostrarTodasConsumo) "Mostrar menos" else "Mostrar todas (${r.filas.size})"
                 contConsumo.addView(Ui.botonSecundario(this@BateriaActivity, textoBoton) {
-                    mostrarTodasConsumo = !mostrarTodasConsumo
-                    leerConsumo()
+                    mostrarTodasConsumo = !mostrarTodasConsumo // Cambiamos el estado
+                    leerConsumo() // Volvemos a dibujar la lista
                 })
             }
         }
