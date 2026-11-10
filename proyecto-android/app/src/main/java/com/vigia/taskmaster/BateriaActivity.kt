@@ -63,9 +63,6 @@ class BateriaActivity : ActividadBase() {
     private var periodoUso = 0
     private lateinit var contUso: LinearLayout
     private lateinit var contConsumo: LinearLayout
-    
-    // NUEVO: Estado para el desplegable de consumo
-    private var mostrarTodasConsumo = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -335,8 +332,6 @@ class BateriaActivity : ActividadBase() {
                 return@launch
             }
             contConsumo.removeAllViews()
-            
-            // Si la lista está vacía, mostramos diagnóstico (comportamiento original)
             if (r.filas.isEmpty()) {
                 contConsumo.addView(Ui.texto(this@BateriaActivity, getString(R.string.bateria_apps_vacio), 13f))
                 contConsumo.addView(Ui.monoespaciado(this@BateriaActivity, r.diagnostico, 10f))
@@ -346,33 +341,16 @@ class BateriaActivity : ActividadBase() {
                 })
                 return@launch
             }
-
-            // Si SÍ hay datos, mostramos la lista con el desplegable
             contConsumo.addView(Ui.texto(this@BateriaActivity, getString(R.string.bateria_apps_resumen), 12f, false, Tema.gris(this@BateriaActivity)))
-            
-            // 1. Decidir cuántas filas mostrar
-            val filasAMostrar = if (mostrarTodasConsumo) r.filas else r.filas.take(15)
-            
-            // 2. Calculamos el máximo usando la lista completa original (r.filas) para que las barras mantengan la proporción real
-            val maximo = r.filas.firstOrNull()?.mah?.toFloat() ?: 1f 
-            
-            // 3. Pintamos las filas seleccionadas
-            for (f in filasAMostrar) {
+            val filas = r.filas.take(15)
+            val maximo = filas.first().mah.toFloat()
+            for (f in filas) {
                 contConsumo.addView(Ui.fila(this@BateriaActivity, Uids.nombre(this@BateriaActivity, f.uid), Formato.decimal(f.mah, 1) + " mAh"))
                 val b = BarraView(this@BateriaActivity)
                 b.altoDp = 6
                 b.simple(f.mah.toFloat() / maximo, Tema.naranja(this@BateriaActivity))
                 contConsumo.addView(b)
                 contConsumo.addView(Ui.espacio(this@BateriaActivity, 6))
-            }
-
-            // 4. Añadir el botón "Mostrar más / Mostrar menos" si hay más de 15
-            if (r.filas.size > 15) {
-                val textoBoton = if (mostrarTodasConsumo) "Mostrar menos" else "Mostrar todas (${r.filas.size})"
-                contConsumo.addView(Ui.botonSecundario(this@BateriaActivity, textoBoton) {
-                    mostrarTodasConsumo = !mostrarTodasConsumo // Cambiamos el estado
-                    leerConsumo() // Volvemos a dibujar la lista
-                })
             }
         }
     }
